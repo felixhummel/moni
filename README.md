@@ -1,5 +1,5 @@
 # Prometheus Grafana Stack
-By default this runs at the domain prom.[0-main.de][0-main.de] exposing ...
+By default this runs at the domain `prom.0-main.de` [^0-main.de] exposing ...
 
 - [Grafana Dashboard](https://grafana.prom.0-main.de/dashboards)
 - [Prometheus UI](https://prometheus.prom.0-main.de/targets)
@@ -10,14 +10,17 @@ By default this runs at the domain prom.[0-main.de][0-main.de] exposing ...
 - [loki](https://loki.prom.0-main.de/ready)
 - [pushgateway](https://pushgateway.prom.0-main.de/)
 
-[0-main.de]: https://blog.hukudo.de/infra/0-main.html
+[^0-main.de]: Our domain `0-main.de` points to localhost (see
+              https://blog.hukudo.de/infra/0-main.html for more information)
 
 Please note that all of these are also exposed via plain HTTP without TLS to
 make scraping easier, because you get to see the same endpoints as prometheus
 does. However you should disable this in security-sensitive contexts.
 
 ## Usage
-To use it as is, make sure that you have our [ingress][] installed and running.
+To use it as is, make sure that you have our [ingress][] at version
+[2022-01.1](https://gitlab.com/hukudo/ingress/-/tags/2022-01.1) or greater
+installed and running.
 ```
 cat <<'EOF' > .env
 GF_SECURITY_ADMIN_PASSWORD=changeme
@@ -27,7 +30,7 @@ docker-compose up -d --build --remove-orphans
 dig prom.0-main.de +short
 ```
 
-[ingress]: https://gitlab.com/hukudo/ingress/-/tags/2022-01.0
+[ingress]: https://gitlab.com/hukudo/ingress
 
 
 # Using another Domain
