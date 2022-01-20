@@ -1,0 +1,148 @@
+version: '3.7'
+
+networks:
+  ingress:
+    external: true
+
+volumes:
+  grafana_data: {}
+  prometheus_data: {}
+  loki_data: {}
+
+x-aliases: &aliases
+  - prometheus.prom.0-main.de
+  - node.prom.0-main.de
+  - cadvisor.prom.0-main.de
+  - blackbox.prom.0-main.de
+  - grafana.prom.0-main.de
+  - loki.prom.0-main.de
+  - pushgateway.prom.0-main.de
+
+services:
+
+  caddy:
+    hostname: caddy.prom
+    networks:
+      default:
+        aliases: *aliases
+      ingress:
+        aliases: *aliases
+    labels:
+      ingress.port: 80
+    image: caddy:2.4.6
+    volumes:
+      - ./caddy:/etc/caddy
+    restart: unless-stopped
+
+  prometheus:
+    hostname: prometheus.prom
+    # https://hub.docker.com/r/prom/prometheus/tags
+    # https://github.com/prometheus/prometheus/blob/v2.17.2/Dockerfile
+    image: prom/prometheus:v2.32.1
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      # DANGER everyone with access to the API can delete
+      # I don't care, because it's non-sensitive data and local net only
+      - '--web.enable-admin-api'
+      - --log.level=warn
+    restart: unless-stopped
+
+  node-exporter:
+    hostname: node-exporter.prom
+    # https://hub.docker.com/r/prom/node-exporter/tags
+    image: prom/node-exporter:v1.3.0
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command: 
+      - '--path.procfs=/host/proc' 
+      - '--path.sysfs=/host/sys'
+      - --collector.filesystem.mount-points-exclude
+      - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
+      - --log.level=warn
+    restart: unless-stopped
+
+  cadvisor:
+    hostname: cadvisor.prom
+    # https://github.com/google/cadvisor/releases
+    # https://console.cloud.google.com/gcr/images/cadvisor/GLOBAL/cadvisor
+    # https://raw.githubusercontent.com/google/cadvisor/v0.36.0/deploy/Dockerfile
+    image: gcr.io/cadvisor/cadvisor:v0.38.8
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    privileged: true
+    restart: unless-stopped
+
+  blackbox_exporter:
+    hostname: blackbox_exporter.prom
+    # https://hub.docker.com/r/prom/blackbox-exporter/tags
+    # https://github.com/prometheus/blackbox_exporter/blob/v0.17.0/Dockerfile
+    image: prom/blackbox-exporter:v0.19.0
+    command:
+      - --config.file=/config/blackbox.yml
+      - --log.level=warn
+    volumes:
+      - ./blackbox_exporter:/config:ro
+    restart: unless-stopped
+
+  grafana:
+    hostname: grafana.prom
+    # https://hub.docker.com/r/grafana/grafana/tags
+    # https://raw.githubusercontent.com/grafana/grafana/v7.0.5/Dockerfile
+    image: grafana/grafana:8.3.3
+    volumes:
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+      - grafana_data:/var/lib/grafana
+    environment:
+      # GF_<SectionName>_<KeyName>
+      # https://grafana.com/docs/grafana/latest/administration/configuration/
+      - GF_SECURITY_ADMIN_PASSWORD
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_LOG_LEVEL=warn
+    restart: unless-stopped
+
+  loki:
+    hostname: loki.prom
+    # https://github.com/grafana/loki/releases
+    image: grafana/loki:2.4.1
+    command:
+      - -config.file=/etc/loki/local-config.yaml
+      - -log.level=warn
+    volumes:
+      - loki_data:/loki
+    restart: unless-stopped
+
+  promtail:
+    hostname: promtail.prom
+    # https://hub.docker.com/r/grafana/promtail/tags
+    # look for same version as loki
+    image: grafana/promtail:2.4.1
+    command:
+      - -config.file=/etc/promtail/config.yml
+      - -log.level=warn
+    volumes:
+      - /var/log:/var/log
+    restart: unless-stopped
+
+  pushgateway:
+    hostname: pushgateway.prom
+    # https://hub.docker.com/r/prom/pushgateway/tags
+    image: prom/pushgateway:v1.4.2
+
+  curl:
+    hostname: curl.prom
+    image: curlimages/curl
+    command: ["sleep", "infinity"]
+    stop_signal: SIGKILL

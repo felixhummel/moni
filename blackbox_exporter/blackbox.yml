@@ -1,0 +1,23 @@
+# https://github.com/prometheus/blackbox_exporter/blob/v0.16.0/blackbox.yml
+# https://github.com/prometheus/blackbox_exporter/blob/v0.16.0/example.yml
+# https://github.com/prometheus/blackbox_exporter/blob/master/CONFIGURATION.md
+modules:
+  # this defines the module; use it in prometheus.yml
+  http_any:
+    prober: http
+    http:
+      # force IPv6; this circumvents the need to enable IPv6 for the Docker daemon.
+      preferred_ip_protocol: "ip4"
+      # unfortunately the config does not allow wildcard status
+      # list them explictly
+      valid_status_codes:
+        - 200
+        - 301
+        - 302
+        - 303
+        - 304
+        - 305
+        - 306
+        - 307
+        - 301
+        - 401

@@ -1,0 +1,46 @@
+# https://raw.githubusercontent.com/vegasbrianc/prometheus/master/prometheus/prometheus.yml
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+
+  external_labels:
+      monitor: 'prom.0-main.de'
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['prometheus.prom.0-main.de']
+
+  - job_name: 'node'
+    static_configs:
+      - targets:
+        - 'node.prom.0-main.de'
+
+  - job_name: 'pushgateway'
+    static_configs:
+      - targets: ['pushgateway.prom.0-main.de']
+    # https://github.com/prometheus/pushgateway#about-the-job-and-instance-labels
+    honor_labels: true
+
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor.prom.0-main.de']
+
+  - job_name: 'http'
+    scrape_interval: 1m
+    metrics_path: /probe
+    params:
+      module: [http_any]
+    static_configs:
+      - targets:
+        - https://felixhummel.de/
+        - https://www.hukudo.de/
+        - https://www.interim-x.com/
+        - https://www.jacob-consulting.de/
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox.prom.0-main.de
