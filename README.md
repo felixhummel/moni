@@ -18,9 +18,9 @@ make scraping easier, because you get to see the same endpoints as prometheus
 does. However you should disable this in security-sensitive contexts.
 
 ## Usage
-To use it as is, make sure that you have our [ingress][] at version
-[2022-01.1](https://gitlab.com/hukudo/ingress/-/tags/2022-01.1) or greater
-installed and running.
+To use it as is, make sure that you have our [ingress][] installed and running 
+at version [2022-01.1](https://gitlab.com/hukudo/ingress/-/tags/2022-01.1) or
+greater.
 ```
 cat <<'EOF' > .env
 GF_SECURITY_ADMIN_PASSWORD=changeme
