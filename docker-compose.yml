@@ -27,11 +27,9 @@ services:
         aliases: *aliases
       ingress:
         aliases: *aliases
+    build: caddy/
     labels:
       ingress.port: 80
-    image: caddy:2.4.6
-    volumes:
-      - ./caddy:/etc/caddy
     restart: unless-stopped
 
   prometheus:
@@ -85,24 +83,17 @@ services:
 
   blackbox_exporter:
     hostname: blackbox_exporter.prom
-    # https://hub.docker.com/r/prom/blackbox-exporter/tags
-    # https://github.com/prometheus/blackbox_exporter/blob/v0.17.0/Dockerfile
-    image: prom/blackbox-exporter:v0.19.0
+    build: blackbox_exporter/
     command:
       - --config.file=/config/blackbox.yml
       - --log.level=warn
-    volumes:
-      - ./blackbox_exporter:/config:ro
     restart: unless-stopped
 
   grafana:
     hostname: grafana.prom
-    # https://hub.docker.com/r/grafana/grafana/tags
-    # https://raw.githubusercontent.com/grafana/grafana/v7.0.5/Dockerfile
-    image: grafana/grafana:8.3.3
+    build: grafana/
     volumes:
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
-      - ./grafana/provisioning/:/etc/grafana/provisioning/
       - grafana_data:/var/lib/grafana
     environment:
       # GF_<SectionName>_<KeyName>
