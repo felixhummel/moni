@@ -828,6 +828,6 @@
   "timepicker": {},
   "timezone": "",
   "title": "containers",
-  "uid": "containers",
+  "uid": "prom-containers",
   "version": 1
 }

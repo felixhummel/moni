@@ -282,7 +282,7 @@
   },
   "timezone": "",
   "title": "http",
-  "uid": "http",
+  "uid": "prom-http",
   "version": 1,
   "weekStart": ""
 }
