@@ -107,9 +107,9 @@ services:
   loki:
     hostname: loki.prom
     # https://github.com/grafana/loki/releases
-    image: grafana/loki:2.4.1
+    build: loki/
     command:
-      - -config.file=/etc/loki/local-config.yaml
+      - -config.file=/etc/loki/config.yaml
       - -log.level=warn
     volumes:
       - loki_data:/loki
