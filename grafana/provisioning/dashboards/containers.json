@@ -8,18 +8,25 @@
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
         "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
         "type": "dashboard"
       }
     ]
   },
   "editable": true,
-  "gnetId": null,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "id": 21,
+  "id": 2,
+  "iteration": 1645808058740,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
-      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -64,7 +71,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.0.6",
+      "pluginVersion": "8.3.3",
       "targets": [
         {
           "exemplar": true,
@@ -74,13 +81,11 @@
           "refId": "A"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "scrape errors",
       "type": "stat"
     },
     {
-      "datasource": "Prometheus",
+      "description": "Use the values as guidance for CPU limits, e.g.\nhttps://docs.docker.com/compose/compose-file/compose-file-v3/#resources",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -98,7 +103,7 @@
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "linear",
+            "lineInterpolation": "smooth",
             "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
@@ -129,7 +134,7 @@
               }
             ]
           },
-          "unit": "percent"
+          "unit": "none"
         },
         "overrides": []
       },
@@ -144,11 +149,14 @@
       "options": {
         "legend": {
           "calcs": [
+            "max",
             "mean",
             "lastNotNull"
           ],
           "displayMode": "table",
-          "placement": "right"
+          "placement": "right",
+          "sortBy": "Last *",
+          "sortDesc": true
         },
         "tooltip": {
           "mode": "single"
@@ -157,8 +165,13 @@
       "pluginVersion": "8.0.4",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "exemplar": true,
-          "expr": "sum by (name) (rate(container_cpu_user_seconds_total{image!=\"\"}[5m]) * 100)",
+          "expr": "sum by (name) (rate(container_cpu_user_seconds_total{image!=\"\", container_label_com_docker_compose_project=~\"$project\"}[$__rate_interval]))",
+          "hide": false,
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "{{name}}",
@@ -167,13 +180,10 @@
           "step": 10
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "CPU (%)",
+      "title": "CPU units",
       "type": "timeseries"
     },
     {
-      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -248,20 +258,21 @@
       "pluginVersion": "8.0.4",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "exemplar": true,
-          "expr": "sum by (name) (container_memory_usage_bytes{image!=\"\"})",
+          "expr": "sum by (name) (container_memory_usage_bytes{image!=\"\", container_label_com_docker_compose_project=~\"$project\"})",
           "interval": "",
           "legendFormat": "{{name}}",
           "refId": "A"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "mem",
       "type": "timeseries"
     },
     {
-      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -306,7 +317,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.0.6",
+      "pluginVersion": "8.3.3",
       "targets": [
         {
           "exemplar": true,
@@ -320,7 +331,6 @@
       "type": "stat"
     },
     {
-      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -365,7 +375,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.0.6",
+      "pluginVersion": "8.3.3",
       "targets": [
         {
           "exemplar": true,
@@ -379,7 +389,6 @@
       "type": "stat"
     },
     {
-      "datasource": "Prometheus",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -457,8 +466,12 @@
       "pluginVersion": "8.0.4",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "exemplar": true,
-          "expr": "sum by (name) (irate(container_network_receive_bytes_total{image!=\"\"}[5m]))",
+          "expr": "sum by (name) (irate(container_network_receive_bytes_total{image!=\"\", container_label_com_docker_compose_project=~\"$project\"}[5m]))",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "{{name}}",
@@ -467,13 +480,10 @@
           "step": 10
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Network Received",
       "type": "timeseries"
     },
     {
-      "datasource": "Prometheus",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -551,8 +561,12 @@
       "pluginVersion": "8.0.4",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "exemplar": true,
-          "expr": "irate(container_network_transmit_bytes_total{image!=\"\"}[5m])",
+          "expr": "irate(container_network_transmit_bytes_total{image!=\"\", container_label_com_docker_compose_project=~\"$project\"}[5m])",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "{{name}} rx",
@@ -561,13 +575,10 @@
           "step": 10
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Network Transmitted",
       "type": "timeseries"
     },
     {
-      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -612,7 +623,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.0.6",
+      "pluginVersion": "8.3.3",
       "targets": [
         {
           "exemplar": true,
@@ -626,7 +637,6 @@
       "type": "stat"
     },
     {
-      "datasource": "Prometheus",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -704,8 +714,12 @@
       "pluginVersion": "8.0.4",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "exemplar": true,
-          "expr": "irate(container_fs_reads_bytes_total{image!=\"\"}[5m])",
+          "expr": "irate(container_fs_reads_bytes_total{image!=\"\", container_label_com_docker_compose_project=~\"$project\"}[5m])",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "{{name}}",
@@ -714,13 +728,10 @@
           "step": 10
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "FS reads",
       "type": "timeseries"
     },
     {
-      "datasource": "Prometheus",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -798,8 +809,12 @@
       "pluginVersion": "8.0.4",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "exemplar": true,
-          "expr": "irate(container_fs_writes_bytes_total{image!=\"\"}[5m])",
+          "expr": "irate(container_fs_writes_bytes_total{image!=\"\", container_label_com_docker_compose_project=~\"$project\"}[5m])",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "{{name}}",
@@ -808,26 +823,48 @@
           "step": 10
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "FS writes",
       "type": "timeseries"
     }
   ],
   "refresh": false,
-  "schemaVersion": 30,
+  "schemaVersion": 34,
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "ingress",
+          "value": "ingress"
+        },
+        "definition": "label_values(container_label_com_docker_compose_project)",
+        "hide": 0,
+        "includeAll": true,
+        "multi": false,
+        "name": "project",
+        "options": [],
+        "query": {
+          "query": "label_values(container_label_com_docker_compose_project)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      }
+    ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "containers",
   "uid": "prom-containers",
-  "version": 1
+  "version": 11,
+  "weekStart": ""
 }
