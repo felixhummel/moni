@@ -113,6 +113,8 @@ services:
       - -log.level=warn
     volumes:
       - loki_data:/loki
+    ports:
+      - 127.0.0.1:3100:3100
     restart: unless-stopped
 
   promtail:
@@ -144,3 +146,17 @@ services:
       PYTHONUNBUFFERED: 1
     init: true
     stop_signal: SIGINT
+    depends_on:
+      - loki
+    # send logs to loki using the loki docker plugin (see README)
+    # https://grafana.com/docs/loki/latest/clients/docker-driver/configuration/
+    logging:
+      driver: loki
+      options:
+        # don't block if loki is unavailable
+        # https://docs.docker.com/config/containers/logging/configure/
+        mode: "non-blocking"
+        loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
+        loki-timeout: "1s"
+        loki-max-backoff: "1m"
+        loki-retries: "2"
