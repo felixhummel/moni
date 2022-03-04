@@ -1,3 +1,4 @@
-FROM grafana/loki:2.4.1
+ARG IMG
+FROM ${IMG}
 
 COPY config.yaml /etc/loki/config.yaml

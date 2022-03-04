@@ -36,7 +36,7 @@ services:
     hostname: prometheus.prom
     # https://hub.docker.com/r/prom/prometheus/tags
     # https://github.com/prometheus/prometheus/blob/v2.17.2/Dockerfile
-    image: prom/prometheus:v2.32.1
+    image: prom/prometheus:v2.33.4
     volumes:
       - ./prometheus/:/etc/prometheus/
       - prometheus_data:/prometheus
@@ -54,7 +54,7 @@ services:
   node-exporter:
     hostname: node-exporter.prom
     # https://hub.docker.com/r/prom/node-exporter/tags
-    image: prom/node-exporter:v1.3.0
+    image: prom/node-exporter:v1.3.1
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -72,7 +72,7 @@ services:
     # https://github.com/google/cadvisor/releases
     # https://console.cloud.google.com/gcr/images/cadvisor/GLOBAL/cadvisor
     # https://raw.githubusercontent.com/google/cadvisor/v0.36.0/deploy/Dockerfile
-    image: gcr.io/cadvisor/cadvisor:v0.38.8
+    image: gcr.io/cadvisor/cadvisor:v0.39.3
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
@@ -83,7 +83,12 @@ services:
 
   blackbox_exporter:
     hostname: blackbox_exporter.prom
-    build: blackbox_exporter/
+    build:
+      context: blackbox_exporter/
+      args:
+        # https://hub.docker.com/r/prom/blackbox-exporter/tags
+        # https://github.com/prometheus/blackbox_exporter/blob/v0.17.0/Dockerfile
+        IMG: prom/blackbox-exporter:v0.19.0
     command:
       - --config.file=/config/blackbox.yml
       - --log.level=warn
@@ -91,7 +96,12 @@ services:
 
   grafana:
     hostname: grafana.prom
-    build: grafana/
+    build:
+      context: grafana/
+      args:
+        # https://hub.docker.com/r/grafana/grafana/tags
+        # https://raw.githubusercontent.com/grafana/grafana/v7.0.5/Dockerfile
+        IMG: grafana/grafana:8.4.3
     volumes:
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
       - grafana_data:/var/lib/grafana
@@ -106,8 +116,11 @@ services:
 
   loki:
     hostname: loki.prom
-    # https://github.com/grafana/loki/releases
-    build: loki/
+    build:
+      context: loki/
+      args:
+        # https://github.com/grafana/loki/releases
+        IMG: grafana/loki:2.4.2
     command:
       - -config.file=/etc/loki/config.yaml
       - -log.level=warn
@@ -121,7 +134,7 @@ services:
     hostname: promtail.prom
     # https://hub.docker.com/r/grafana/promtail/tags
     # look for same version as loki
-    image: grafana/promtail:2.4.1
+    image: grafana/promtail:2.4.2
     command:
       - -config.file=/etc/promtail/config.yml
       - -log.level=warn
