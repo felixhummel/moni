@@ -9,28 +9,15 @@ volumes:
   prometheus_data: {}
   loki_data: {}
 
-x-aliases: &aliases
-  - prometheus.prom.0-main.de
-  - node.prom.0-main.de
-  - cadvisor.prom.0-main.de
-  - blackbox.prom.0-main.de
-  - grafana.prom.0-main.de
-  - loki.prom.0-main.de
-  - pushgateway.prom.0-main.de
+
+# attach to both the default and the ingress network
+x-networks: &x-networks
+  networks:
+    default:
+    ingress:
+
 
 services:
-
-  caddy:
-    hostname: caddy.prom
-    networks:
-      default:
-        aliases: *aliases
-      ingress:
-        aliases: *aliases
-    build: caddy/
-    labels:
-      ingress.port: 80
-    restart: unless-stopped
 
   prometheus:
     hostname: prometheus.prom
@@ -40,6 +27,10 @@ services:
     volumes:
       - ./prometheus/:/etc/prometheus/
       - prometheus_data:/prometheus
+    <<: *x-networks
+    labels:
+      ingress.host: prometheus.prom.0-main.de
+      ingress.port: 9090
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -53,6 +44,10 @@ services:
 
   node-exporter:
     hostname: node-exporter.prom
+    <<: *x-networks
+    labels:
+      ingress.host: node.prom.0-main.de
+      ingress.port: 9100
     # https://hub.docker.com/r/prom/node-exporter/tags
     image: prom/node-exporter:v1.3.1
     volumes:
@@ -69,6 +64,10 @@ services:
 
   cadvisor:
     hostname: cadvisor.prom
+    <<: *x-networks
+    labels:
+      ingress.host: cadvisor.prom.0-main.de
+      ingress.port: 8080
     # https://github.com/google/cadvisor/releases
     # https://console.cloud.google.com/gcr/images/cadvisor/GLOBAL/cadvisor
     # https://raw.githubusercontent.com/google/cadvisor/v0.36.0/deploy/Dockerfile
@@ -83,6 +82,10 @@ services:
 
   blackbox_exporter:
     hostname: blackbox_exporter.prom
+    <<: *x-networks
+    labels:
+      ingress.host: blackbox.prom.0-main.de
+      ingress.port: 9115
     build:
       context: blackbox_exporter/
       args:
@@ -96,6 +99,10 @@ services:
 
   grafana:
     hostname: grafana.prom
+    <<: *x-networks
+    labels:
+      ingress.host: grafana.prom.0-main.de
+      ingress.port: 3000
     build:
       context: grafana/
       args:
@@ -116,6 +123,10 @@ services:
 
   loki:
     hostname: loki.prom
+    <<: *x-networks
+    labels:
+      ingress.host: loki.prom.0-main.de
+      ingress.port: 3100
     build:
       context: loki/
       args:
@@ -144,6 +155,10 @@ services:
 
   pushgateway:
     hostname: pushgateway.prom
+    <<: *x-networks
+    labels:
+      ingress.host: pushgateway.prom.0-main.de
+      ingress.port: 9091
     # https://hub.docker.com/r/prom/pushgateway/tags
     image: prom/pushgateway:v1.4.2
 

@@ -29,7 +29,7 @@ on another machine.
 
 ## Usage
 To use it as is, make sure that you have our [ingress][] installed and running 
-at version [2022-01.1](https://gitlab.com/hukudo/ingress/-/tags/2022-01.1) or
+at version [2022-05.2](https://gitlab.com/hukudo/ingress/-/tags/2022-05.2) or
 greater.
 ```
 cat <<'EOF' > .env
