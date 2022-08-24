@@ -66,6 +66,21 @@ services:
       - --log.level=warn
     restart: unless-stopped
 
+  alertmanager:
+    hostname: alertmanager.prom
+    # https://hub.docker.com/r/prom/alertmanager/tags
+    image: prom/alertmanager:v0.24.0
+    volumes:
+      - ./alertmanager/:/etc/alertmanager/
+    <<: *x-networks
+    labels:
+      ingress.host: alertmanager.prom.0-main.de
+      ingress.port: 9093
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - --log.level=warn
+    restart: unless-stopped
+
   loki:
     hostname: loki.prom
     <<: *x-networks
@@ -179,3 +194,8 @@ services:
         loki-timeout: "1s"
         loki-max-backoff: "1m"
         loki-retries: "2"
+
+  # used for alertmanager mails
+  mailhog:
+    # https://registry.hub.docker.com/r/mailhog/mailhog/tags
+    image: mailhog/mailhog:v1.0.1

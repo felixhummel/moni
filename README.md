@@ -56,8 +56,11 @@ keep readability high and aid debugging (think copy&paste).
 # Development
 ```
 vi prometheus/prometheus.yml
-make prometheus_reload
+docker-compose kill -s SIGHUP prometheus
 
 vi grafana/provisioning/
-make grafana_restart
+docker-compose restart grafana
+
+vi alertmanager/alertmanager.yml
+docker-compose kill -s SIGHUP alertmanager
 ```
