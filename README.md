@@ -60,7 +60,4 @@ docker-compose kill -s SIGHUP prometheus
 
 vi grafana/provisioning/
 docker-compose restart grafana
-
-vi alertmanager/alertmanager.yml
-docker-compose kill -s SIGHUP alertmanager
 ```

@@ -55,6 +55,8 @@ curl -X POST -g 'https://prometheus.prom.0-main.de/api/v1/admin/tsdb/delete_seri
 
 
 # Alertmanager
+**REMOVED; use Grafana managed alertmanager instead**
+
 Query
 ```
 irate(node_network_receive_bytes_total{device="eth0"}[30m])
