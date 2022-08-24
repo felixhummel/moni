@@ -16,12 +16,6 @@ scrape_configs:
       - targets:
         - 'node.prom.0-main.de'
 
-  - job_name: 'pushgateway'
-    static_configs:
-      - targets: ['pushgateway.prom.0-main.de']
-    # https://github.com/prometheus/pushgateway#about-the-job-and-instance-labels
-    honor_labels: true
-
   - job_name: 'cadvisor'
     static_configs:
       - targets: ['cadvisor.prom.0-main.de']

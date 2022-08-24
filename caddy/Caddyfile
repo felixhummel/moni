@@ -28,4 +28,3 @@ import proxy cadvisor.prom.0-main.de cadvisor.prom:8080
 import proxy blackbox.prom.0-main.de blackbox_exporter.prom:9115
 import proxy grafana.prom.0-main.de grafana.prom:3000
 import proxy loki.prom.0-main.de loki.prom:3100
-import proxy pushgateway.prom.0-main.de pushgateway.prom:9091

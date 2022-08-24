@@ -153,15 +153,6 @@ services:
       - /var/log:/var/log
     restart: unless-stopped
 
-  pushgateway:
-    hostname: pushgateway.prom
-    <<: *x-networks
-    labels:
-      ingress.host: pushgateway.prom.0-main.de
-      ingress.port: 9091
-    # https://hub.docker.com/r/prom/pushgateway/tags
-    image: prom/pushgateway:v1.4.2
-
   curl:
     hostname: curl.prom
     image: curlimages/curl

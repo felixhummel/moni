@@ -8,7 +8,6 @@ By default this runs at the domain `prom.0-main.de` [^0-main.de] exposing ...
 - [blackbox HTTP ping
   metrics](https://blackbox.prom.0-main.de/probe?module=http_any&target=https://hukudo.de)
 - [loki](https://loki.prom.0-main.de/ready)
-- [pushgateway](https://pushgateway.prom.0-main.de/)
 
 [^0-main.de]: Our domain `0-main.de` points to localhost (see
               https://blog.hukudo.de/infra/0-main.html for more information)
