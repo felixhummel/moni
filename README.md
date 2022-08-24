@@ -60,7 +60,4 @@ make prometheus_reload
 
 vi grafana/provisioning/
 make grafana_restart
-
-vi caddy/Caddyfile
-make caddy_adapt
 ```
