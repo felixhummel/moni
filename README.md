@@ -1,4 +1,6 @@
 # Prometheus Grafana Stack
+See [overview.drawio](overview.drawio).
+
 By default this runs at the domain `prom.0-main.de` [^0-main.de] exposing ...
 
 - [Grafana Dashboard](https://grafana.prom.0-main.de/dashboards)

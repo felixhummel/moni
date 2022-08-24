@@ -75,3 +75,10 @@ Test Alert
 ```
 curl -H 'Content-Type: application/json' -d '[{"labels":{"alertname":"myalert"}}]' https://alertmanager.prom.0-main.de/api/v1/alerts
 ```
+
+
+# Grafana Managed Alertmanager
+https://grafana.prom.0-main.de/alerting/notifications/receivers/grafana-default-email/edit?alertmanager=grafana
+hit "Test" > "Send"
+
+https://mail.prom.0-main.de/ should have TestAlert Mail
