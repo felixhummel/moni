@@ -4,7 +4,8 @@
 # based on:
 # https://github.com/prometheus/alertmanager/blob/main/doc/examples/simple.yml
 global:
-  smtp_smarthost: 'mailhog:25'
+  smtp_require_tls: false  # debug mail host
+  smtp_smarthost: 'mailhog:1025'
   smtp_from: 'alertmanager@example.org'
 
 # The directory from which notification templates are read.
@@ -13,15 +14,16 @@ templates:
 
 # The root route on which each incoming alert enters.
 route:
-  group_by: ['alertname', 'cluster', 'service']
-  group_wait: 30s
-  group_interval: 5m
-  repeat_interval: 3h
+  group_by: ['alertname', 'service']
+  # debug timings
+  group_wait: 2s
+  group_interval: 30s
+  repeat_interval: 5m
   receiver: mails
   routes:
     - matchers:
         - service=~"foo1|foo2|baz"
-      receiver: mails
+      receiver: mails  # redundant 
 
 receivers:
   - name: 'mails'

@@ -52,3 +52,24 @@ Note that `systemd_service_up` is a metric name
 ```
 curl -X POST -g 'https://prometheus.prom.0-main.de/api/v1/admin/tsdb/delete_series?match[]=systemd_service_up'
 ```
+
+
+# Alertmanager
+Query
+```
+irate(node_network_receive_bytes_total{device="eth0"}[30m])
+```
+
+Expression
+```
+avg() of A > 70
+```
+
+- Every 10s for 20s
+- add Folder "test", add Group "test"
+
+
+Test Alert
+```
+curl -H 'Content-Type: application/json' -d '[{"labels":{"alertname":"myalert"}}]' https://alertmanager.prom.0-main.de/api/v1/alerts
+```
