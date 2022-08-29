@@ -82,3 +82,23 @@ https://grafana.prom.0-main.de/alerting/notifications/receivers/grafana-default-
 hit "Test" > "Send"
 
 https://mail.prom.0-main.de/ should have TestAlert Mail
+
+
+# Grafana Caveats
+
+## State Timeline
+Suppose you want to monitor the `up` metric for your instances like this:
+```
+up{job="foo"}
+```
+then you get time series with values 0 for *down* or 1 for *up*.
+
+If you want a State Timeline per instance, you have to
+
+1. set "Color Schema" to single color
+2. remove thresholds as they become irrelevant
+3. set desired colors in *Value Mappings*
+
+Thanks to
+[@Mario-Hofstaetter](https://github.com/grafana/grafana/issues/40661#issuecomment-1121196025)
+for describing this workaround.
