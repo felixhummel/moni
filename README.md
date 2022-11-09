@@ -1,5 +1,5 @@
 # Prometheus Grafana Stack
-See [overview.drawio](overview.drawio).
+![overview](overview.drawio.png)
 
 By default this runs at the domain `prom.0-main.de` [^0-main.de] exposing ...
 
