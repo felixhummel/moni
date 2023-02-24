@@ -29,7 +29,7 @@ services:
       args:
         # https://hub.docker.com/r/grafana/grafana/tags
         # https://raw.githubusercontent.com/grafana/grafana/v9.1.1/Dockerfile
-        IMG: grafana/grafana:9.1.1
+        IMG: grafana/grafana:9.3.6
     volumes:
       - ./grafana/etc:/etc/grafana:ro
       - grafana_data:/var/lib/grafana
@@ -42,7 +42,7 @@ services:
   prometheus:
     # https://hub.docker.com/r/prom/prometheus/tags
     # https://github.com/prometheus/prometheus/blob/v2.38.0/Dockerfile
-    image: prom/prometheus:v2.38.0
+    image: prom/prometheus:v2.42.0
     volumes:
       - ./prometheus/:/etc/prometheus/
       - prometheus_data:/prometheus
@@ -70,7 +70,7 @@ services:
       context: loki/
       args:
         # https://github.com/grafana/loki/releases
-        IMG: grafana/loki:2.6.1
+        IMG: grafana/loki:2.7.3
     command:
       - -config.file=/etc/loki/config.yaml
       - -log.level=warn
@@ -86,7 +86,7 @@ services:
       ingress.host: node.prom.0-main.de
       ingress.port: 9100
     # https://hub.docker.com/r/prom/node-exporter/tags
-    image: prom/node-exporter:v1.3.1
+    image: prom/node-exporter:v1.5.0
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -106,8 +106,8 @@ services:
       ingress.port: 8080
     # https://github.com/google/cadvisor/releases
     # https://console.cloud.google.com/gcr/images/cadvisor/GLOBAL/cadvisor
-    # https://raw.githubusercontent.com/google/cadvisor/v0.45.0/deploy/Dockerfile
-    image: gcr.io/cadvisor/cadvisor:v0.45.0
+    # https://raw.githubusercontent.com/google/cadvisor/v0.47.0/deploy/Dockerfile
+    image: gcr.io/cadvisor/cadvisor:v0.47.0
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
@@ -135,7 +135,7 @@ services:
   promtail:
     # https://hub.docker.com/r/grafana/promtail/tags?page=1&name=2.6.1
     # look for same version as loki
-    image: grafana/promtail:2.6.1
+    image: grafana/promtail:2.7.3
     command:
       - -config.file=/etc/promtail/config.yml
       - -log.level=warn
