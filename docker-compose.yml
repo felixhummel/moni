@@ -29,7 +29,7 @@ services:
       args:
         # https://hub.docker.com/r/grafana/grafana/tags
         # https://raw.githubusercontent.com/grafana/grafana/v9.1.1/Dockerfile
-        IMG: grafana/grafana:9.3.6
+        IMG: grafana/grafana:10.2.4
     volumes:
       - ./grafana/etc:/etc/grafana:ro
       - grafana_data:/var/lib/grafana
@@ -42,7 +42,7 @@ services:
   prometheus:
     # https://hub.docker.com/r/prom/prometheus/tags
     # https://github.com/prometheus/prometheus/blob/v2.38.0/Dockerfile
-    image: prom/prometheus:v2.42.0
+    image: prom/prometheus:v2.50.1
     volumes:
       - ./prometheus/:/etc/prometheus/
       - prometheus_data:/prometheus
@@ -70,7 +70,7 @@ services:
       context: loki/
       args:
         # https://github.com/grafana/loki/releases
-        IMG: grafana/loki:2.7.3
+        IMG: grafana/loki:2.9.5
     command:
       - -config.file=/etc/loki/config.yaml
       - -log.level=warn
@@ -86,7 +86,7 @@ services:
       ingress.host: node.prom.0-main.de
       ingress.port: 9100
     # https://hub.docker.com/r/prom/node-exporter/tags
-    image: prom/node-exporter:v1.5.0
+    image: prom/node-exporter:v1.7.0
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -107,7 +107,7 @@ services:
     # https://github.com/google/cadvisor/releases
     # https://console.cloud.google.com/gcr/images/cadvisor/GLOBAL/cadvisor
     # https://raw.githubusercontent.com/google/cadvisor/v0.47.0/deploy/Dockerfile
-    image: gcr.io/cadvisor/cadvisor:v0.47.0
+    image: gcr.io/cadvisor/cadvisor:v0.47.2
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
@@ -126,7 +126,7 @@ services:
       args:
         # https://hub.docker.com/r/prom/blackbox-exporter/tags
         # https://github.com/prometheus/blackbox_exporter/blob/v0.22.0/Dockerfile
-        IMG: prom/blackbox-exporter:v0.22.0
+        IMG: prom/blackbox-exporter:v0.24.0
     command:
       - --config.file=/config/blackbox.yml
       - --log.level=warn
@@ -135,7 +135,7 @@ services:
   promtail:
     # https://hub.docker.com/r/grafana/promtail/tags?page=1&name=2.6.1
     # look for same version as loki
-    image: grafana/promtail:2.7.3
+    image: grafana/promtail:2.9.5
     command:
       - -config.file=/etc/promtail/config.yml
       - -log.level=warn
@@ -157,18 +157,6 @@ services:
     stop_signal: SIGINT
     depends_on:
       - loki
-    # send logs to loki using the loki docker plugin (see README)
-    # https://grafana.com/docs/loki/latest/clients/docker-driver/configuration/
-    logging:
-      driver: loki
-      options:
-        # don't block if loki is unavailable
-        # https://docs.docker.com/config/containers/logging/configure/
-        mode: "non-blocking"
-        loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
-        loki-timeout: "1s"
-        loki-max-backoff: "1m"
-        loki-retries: "2"
 
   # used for alertmanager mails
   mailhog:

@@ -18,13 +18,10 @@ Please note that all of these are also exposed via plain HTTP without TLS to
 make scraping easier, because you get to see the same endpoints as prometheus
 does. However you should disable this in security-sensitive contexts.
 
-## Docker Loki Logging Driver
-Please follow the installation instructions on
-https://grafana.com/docs/loki/latest/clients/docker-driver/
-
-We bind [Loki][] to `127.0.0.1:3100`. This allows the host's Docker daemon to
-send logs to Loki directly. In a production setup your Loki instance would run
-on another machine.
+## Putting Docker Logs into Loki
+We bind [Loki][] to `127.0.0.1:3100`. Please refer to
+https://github.com/felixhummel/deploy-promtail on usage. Note that in a
+production setup your Loki instance would run on another machine.
 
 [Loki]: https://grafana.com/docs/loki/latest/
 
