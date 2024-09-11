@@ -25,8 +25,8 @@ services:
       context: grafana/
       args:
         # https://hub.docker.com/r/grafana/grafana/tags
-        # https://raw.githubusercontent.com/grafana/grafana/v9.1.1/Dockerfile
-        IMG: grafana/grafana:10.2.4
+        # https://raw.githubusercontent.com/grafana/grafana/v11.2.0/Dockerfile
+        IMG: grafana/grafana:11.2.0
     volumes:
       - ./grafana/etc:/etc/grafana:ro
       - grafana_data:/var/lib/grafana
