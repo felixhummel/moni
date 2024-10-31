@@ -66,8 +66,8 @@ services:
     build:
       context: loki/
       args:
-        # https://github.com/grafana/loki/releases
-        IMG: grafana/loki:2.9.5
+        # https://github.com/grafana/loki/releases/latest
+        IMG: grafana/loki:3.2.1
     command:
       - -config.file=/etc/loki/config.yaml
       - -log.level=warn
