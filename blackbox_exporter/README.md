@@ -4,7 +4,7 @@ https://medium.com/the-telegraph-engineering/how-prometheus-and-the-blackbox-exp
 
 debug probe via `&debug=true`, e.g.:
 ```
-http://blackbox.prom.0-main.de/probe?target=prometheus.io&module=http_any&debug=true
+http://blackbox.moni.0-main.de/probe?target=prometheus.io&module=http_any&debug=true
 ```
 
 reload:

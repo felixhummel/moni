@@ -19,7 +19,7 @@ services:
   grafana:
     <<: *x-networks
     labels:
-      ingress.host: grafana.prom.0-main.de
+      ingress.host: grafana.moni.0-main.de
       ingress.port: 3000
     build:
       context: grafana/
@@ -45,7 +45,7 @@ services:
       - prometheus_data:/prometheus
     <<: *x-networks
     labels:
-      ingress.host: prometheus.prom.0-main.de
+      ingress.host: prometheus.moni.0-main.de
       ingress.port: 9090
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
@@ -61,7 +61,7 @@ services:
   loki:
     <<: *x-networks
     labels:
-      ingress.host: loki.prom.0-main.de
+      ingress.host: loki.moni.0-main.de
       ingress.port: 3100
     build:
       context: loki/
@@ -80,7 +80,7 @@ services:
   node-exporter:
     <<: *x-networks
     labels:
-      ingress.host: node.prom.0-main.de
+      ingress.host: node.moni.0-main.de
       ingress.port: 9100
     # https://hub.docker.com/r/prom/node-exporter/tags
     image: prom/node-exporter:v1.7.0
@@ -99,7 +99,7 @@ services:
   cadvisor:
     <<: *x-networks
     labels:
-      ingress.host: cadvisor.prom.0-main.de
+      ingress.host: cadvisor.moni.0-main.de
       ingress.port: 8080
     # https://github.com/google/cadvisor/releases
     # https://console.cloud.google.com/gcr/images/cadvisor/GLOBAL/cadvisor
@@ -116,7 +116,7 @@ services:
   blackbox_exporter:
     <<: *x-networks
     labels:
-      ingress.host: blackbox.prom.0-main.de
+      ingress.host: blackbox.moni.0-main.de
       ingress.port: 9115
     build:
       context: blackbox_exporter/
@@ -161,5 +161,5 @@ services:
     # https://registry.hub.docker.com/r/mailhog/mailhog/tags
     image: mailhog/mailhog:v1.0.1
     labels:
-      ingress.host: mail.prom.0-main.de
+      ingress.host: mail.moni.0-main.de
       ingress.port: 8025

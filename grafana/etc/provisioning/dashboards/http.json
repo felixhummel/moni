@@ -33,7 +33,7 @@
       "title": "blackbox targets",
       "tooltip": "",
       "type": "link",
-      "url": "http://prometheus.prom.0-main.de/targets#job-blackbox"
+      "url": "http://prometheus.moni.0-main.de/targets#job-blackbox"
     }
   ],
   "liveNow": false,
@@ -163,7 +163,7 @@
             {
               "targetBlank": true,
               "title": "metrics endpoint",
-              "url": "http://blackbox.prom.0-main.de/probe?module=http_any&target=${__field.labels.instance}"
+              "url": "http://blackbox.moni.0-main.de/probe?module=http_any&target=${__field.labels.instance}"
             }
           ],
           "mappings": [],

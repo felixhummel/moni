@@ -34,7 +34,7 @@
       "title": "node metrics",
       "tooltip": "",
       "type": "link",
-      "url": "http://node.prom.0-main.de/metrics"
+      "url": "http://node.moni.0-main.de/metrics"
     }
   ],
   "liveNow": false,
@@ -434,8 +434,8 @@
               "job 1": true,
               "job 2": true,
               "mountpoint 2": true,
-              "{device=\"/dev/mapper/vgxubuntu-root\", fstype=\"ext4\", instance=\"node.prom.0-main.de:80\", job=\"node\", mountpoint=\"/\"}": true,
-              "{device=\"/dev/mapper/vgxubuntu-root\", fstype=\"ext4\", instance=\"node.prom.0-main.de:80\", job=\"node\", mountpoint=\"/\"} · Time": true
+              "{device=\"/dev/mapper/vgxubuntu-root\", fstype=\"ext4\", instance=\"node.moni.0-main.de:80\", job=\"node\", mountpoint=\"/\"}": true,
+              "{device=\"/dev/mapper/vgxubuntu-root\", fstype=\"ext4\", instance=\"node.moni.0-main.de:80\", job=\"node\", mountpoint=\"/\"} · Time": true
             },
             "indexByName": {
               "Time": 0,
@@ -1706,7 +1706,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "rate(node_intr_total{job=\"f\"}[1m])",
+              "expr": "rate(node_intr_total{instance=~\"$instance\"}[1m])",
               "interval": "",
               "legendFormat": "",
               "refId": "A"
@@ -1756,8 +1756,8 @@
       {
         "current": {
           "selected": false,
-          "text": "node.prom.0-main.de:80",
-          "value": "node.prom.0-main.de:80"
+          "text": "node.moni.0-main.de:80",
+          "value": "node.moni.0-main.de:80"
         },
         "definition": "label_values(node_boot_time_seconds, instance)",
         "hide": 0,
@@ -1797,7 +1797,7 @@
   },
   "timezone": "",
   "title": "node",
-  "uid": "prom-node",
+  "uid": "moni-node",
   "version": 1,
   "weekStart": ""
 }

@@ -864,7 +864,7 @@
   "timepicker": {},
   "timezone": "",
   "title": "containers",
-  "uid": "prom-containers",
+  "uid": "moni-containers",
   "version": 11,
   "weekStart": ""
 }

@@ -10,5 +10,5 @@ datasources:
   type: loki
   orgId: 1
   access: proxy
-  url: http://loki.prom.0-main.de
+  url: http://loki.moni.0-main.de
   editable: false

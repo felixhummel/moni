@@ -4,9 +4,9 @@ We use flat DNS names. Everything goes through Caddy.
 Thus the following return the same:
 ```
 # from the host machine
-curl http://node.prom.0-main.de/metrics
+curl http://node.moni.0-main.de/metrics
 # inside the docker network
-docker-compose exec curl curl http://node.prom.0-main.de/metrics
+docker-compose exec curl curl http://node.moni.0-main.de/metrics
 ```
 
 There can be conflicts on the `ingress` network. If there was another container
@@ -50,7 +50,7 @@ in [prometheus/prometheus.yml][].
 # Prometheus Delete
 Note that `systemd_service_up` is a metric name
 ```
-curl -X POST -g 'https://prometheus.prom.0-main.de/api/v1/admin/tsdb/delete_series?match[]=systemd_service_up'
+curl -X POST -g 'https://prometheus.moni.0-main.de/api/v1/admin/tsdb/delete_series?match[]=systemd_service_up'
 ```
 
 
@@ -73,15 +73,15 @@ avg() of A > 70
 
 Test Alert
 ```
-curl -H 'Content-Type: application/json' -d '[{"labels":{"alertname":"myalert"}}]' https://alertmanager.prom.0-main.de/api/v1/alerts
+curl -H 'Content-Type: application/json' -d '[{"labels":{"alertname":"myalert"}}]' https://alertmanager.moni.0-main.de/api/v1/alerts
 ```
 
 
 # Grafana Managed Alertmanager
-https://grafana.prom.0-main.de/alerting/notifications/receivers/grafana-default-email/edit?alertmanager=grafana
+https://grafana.moni.0-main.de/alerting/notifications/receivers/grafana-default-email/edit?alertmanager=grafana
 hit "Test" > "Send"
 
-https://mail.prom.0-main.de/ should have TestAlert Mail
+https://mail.moni.0-main.de/ should have TestAlert Mail
 
 
 # Grafana Caveats

@@ -1,15 +1,15 @@
 # Prometheus Grafana Stack
 ![overview](overview.drawio.png)
 
-By default this runs at the domain `prom.0-main.de` [^0-main.de] exposing ...
+By default this runs at the domain `moni.0-main.de` [^0-main.de] exposing ...
 
-- [Grafana Dashboard](https://grafana.prom.0-main.de/dashboards)
-- [Prometheus UI](https://prometheus.prom.0-main.de/targets)
-- [node exporter metrics](https://node.prom.0-main.de/metrics)
-- [cadvisor metrics](https://cadvisor.prom.0-main.de/metrics)
+- [Grafana Dashboard](https://grafana.moni.0-main.de/dashboards)
+- [Prometheus UI](https://prometheus.moni.0-main.de/targets)
+- [node exporter metrics](https://node.moni.0-main.de/metrics)
+- [cadvisor metrics](https://cadvisor.moni.0-main.de/metrics)
 - [blackbox HTTP ping
-  metrics](https://blackbox.prom.0-main.de/probe?module=http_any&target=https://hukudo.de)
-- [loki](https://loki.prom.0-main.de/ready)
+  metrics](https://blackbox.moni.0-main.de/probe?module=http_any&target=https://hukudo.de)
+- [loki](https://loki.moni.0-main.de/ready)
 
 [^0-main.de]: Our domain `0-main.de` points to localhost (see
               https://blog.hukudo.de/infra/0-main.html for more information)
@@ -35,17 +35,17 @@ GF_SECURITY_ADMIN_PASSWORD=changeme
 EOF
 
 docker-compose up -d --build --remove-orphans
-dig prom.0-main.de +short
+dig moni.0-main.de +short
 ```
 
 [ingress]: https://gitlab.com/hukudo/ingress
 
 
 # Using another Domain
-Replace `prom.0-main.de` with your TLD, e.g.:
+Replace `moni.0-main.de` with your TLD, e.g.:
 ```
-rg -l 'prom\.0-main.de' | rg -v README.md \
-  | xargs -L1 sed -i -e 's/prom\.0-main.de/example.com/'
+rg -l 'moni\.0-main.de' | rg -v README.md \
+  | xargs -L1 sed -i -e 's/moni\.0-main.de/example.com/'
 ```
 
 We deliberately kept the many duplicates of fully qualified domain names to

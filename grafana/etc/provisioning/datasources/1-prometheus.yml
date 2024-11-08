@@ -10,7 +10,7 @@ datasources:
   type: prometheus
   access: proxy
   orgId: 1
-  url: http://prometheus.prom.0-main.de
+  url: http://prometheus.moni.0-main.de
   isDefault: true
   version: 1
   editable: true

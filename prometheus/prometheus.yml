@@ -4,21 +4,21 @@ global:
   evaluation_interval: 15s
 
   external_labels:
-      monitor: 'prom.0-main.de'
+      monitor: 'moni.0-main.de'
 
 scrape_configs:
   - job_name: 'prometheus'
     static_configs:
-      - targets: ['prometheus.prom.0-main.de']
+      - targets: ['prometheus.moni.0-main.de']
 
   - job_name: 'node'
     static_configs:
       - targets:
-        - 'node.prom.0-main.de'
+        - 'node.moni.0-main.de'
 
   - job_name: 'cadvisor'
     static_configs:
-      - targets: ['cadvisor.prom.0-main.de']
+      - targets: ['cadvisor.moni.0-main.de']
 
   - job_name: 'http'
     scrape_interval: 1m
@@ -37,4 +37,4 @@ scrape_configs:
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: blackbox.prom.0-main.de
+        replacement: blackbox.moni.0-main.de

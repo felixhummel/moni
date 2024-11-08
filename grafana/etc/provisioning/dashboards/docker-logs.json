@@ -54,7 +54,7 @@
             "type": "loki",
             "uid": "P8E80F9AEF21F6940"
           },
-          "expr": "{compose_project=\"prom\",compose_service=\"example\"} | json | line_format \"{{ .level }} {{ .msg }}\"",
+          "expr": "{compose_project=\"moni\",compose_service=\"example\"} | json | line_format \"{{ .level }} {{ .msg }}\"",
           "refId": "A"
         }
       ],
