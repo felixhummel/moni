@@ -160,8 +160,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "loki logs",
-  "uid": "prom-loki-logs",
+  "title": "logs",
+  "uid": "moni-logs",
   "version": 2,
   "weekStart": ""
 }
