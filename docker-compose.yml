@@ -26,7 +26,7 @@ services:
       args:
         # https://hub.docker.com/r/grafana/grafana/tags
         # https://raw.githubusercontent.com/grafana/grafana/v11.2.0/Dockerfile
-        IMG: grafana/grafana:11.2.0
+        IMG: grafana/grafana:11.3.0
     volumes:
       - ./grafana/etc:/etc/grafana:ro
       - grafana_data:/var/lib/grafana
@@ -39,7 +39,7 @@ services:
   prometheus:
     # https://hub.docker.com/r/prom/prometheus/tags
     # https://github.com/prometheus/prometheus/blob/v2.38.0/Dockerfile
-    image: prom/prometheus:v2.50.1
+    image: prom/prometheus:v2.55.1
     volumes:
       - ./prometheus/:/etc/prometheus/
       - prometheus_data:/prometheus
@@ -83,7 +83,7 @@ services:
       ingress.host: node.moni.0-main.de
       ingress.port: 9100
     # https://hub.docker.com/r/prom/node-exporter/tags
-    image: prom/node-exporter:v1.7.0
+    image: prom/node-exporter:v1.8.2
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -101,10 +101,10 @@ services:
     labels:
       ingress.host: cadvisor.moni.0-main.de
       ingress.port: 8080
-    # https://github.com/google/cadvisor/releases
+    # https://github.com/google/cadvisor/releases/latest
     # https://console.cloud.google.com/gcr/images/cadvisor/GLOBAL/cadvisor
     # https://raw.githubusercontent.com/google/cadvisor/v0.47.0/deploy/Dockerfile
-    image: gcr.io/cadvisor/cadvisor:v0.47.2
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
@@ -121,9 +121,9 @@ services:
     build:
       context: blackbox_exporter/
       args:
+        # https://github.com/prometheus/blackbox_exporter/releases/latest
         # https://hub.docker.com/r/prom/blackbox-exporter/tags
-        # https://github.com/prometheus/blackbox_exporter/blob/v0.22.0/Dockerfile
-        IMG: prom/blackbox-exporter:v0.24.0
+        IMG: prom/blackbox-exporter:v0.25.0
     command:
       - --config.file=/config/blackbox.yml
       - --log.level=warn
@@ -132,7 +132,7 @@ services:
   promtail:
     # https://hub.docker.com/r/grafana/promtail/tags?page=1&name=2.6.1
     # look for same version as loki
-    image: grafana/promtail:2.9.5
+    image: grafana/promtail:3.2.1
     command:
       - -config.file=/etc/promtail/config.yml
       - -log.level=warn
